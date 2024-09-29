@@ -1,9 +1,9 @@
 const redis = require('redis');
 class RedisClient{
      constructor (){
-         this.client = redis.createClient({
-            url: 'redis://localhost:6379' // default Redis URL
+         this.client = redis.createClient({ // default Redis URL
           });
+          this.getAsync = promisify(this.client.get).bind(this.client);
           this.client.on('error',(err) =>{console.log(err)})
           this.client.connect().catch((err) => {
             console.error('Redis connection error:', err);
@@ -45,3 +45,7 @@ class RedisClient{
     }
 
 }
+
+const redisClient = new RedisClient();
+
+export default redisClient;
