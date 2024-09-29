@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import sha1 from 'sha1';
 import Queue from 'bull';
 import dbClient from '../utils/db';
@@ -96,4 +95,4 @@ response.status(401).json({ error: 'Unauthorized' });
 }}}
 
 
-export default UsersController;
+module.exports = UsersController;
