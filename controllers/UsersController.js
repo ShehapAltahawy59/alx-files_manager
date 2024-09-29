@@ -7,7 +7,7 @@ import redisClient from '../utils/redis';
 const userQueue = new Queue('userQueue', 'redis://127.0.0.1:6379');
 
 class UsersController {
-  static postNew(request, response) {
+  static async postNew(request, response) {
     const { email } = request.body;
     const { password } = request.body;
 
