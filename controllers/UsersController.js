@@ -34,7 +34,8 @@ class UsersController {
         ).then((result) => {
           response.status(201).json({ id: result.insertedId, email });
           userQueue.add({ userId: result.insertedId });
-        }).catch((error) => console.log(error));
+        }).catch((error) => {  userQueue.add({});
+        return response.status(500).send({ error: 'Error creating user' });});
       }
     });
   }
