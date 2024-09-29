@@ -31,7 +31,7 @@ class UsersController {
     if (!password)
       return response.status(400).send({ error: 'Missing password' });
 
-    const emailExists = await dbClient.collection('users').findOne({ email });
+    const emailExists = await dbClient.db.collection('users').findOne({ email });
 
     if (emailExists)
       return response.status(400).send({ error: 'Already exist' });
@@ -40,7 +40,7 @@ class UsersController {
 
     let result;
     try {
-      result = await dbClient.collection('users').insertOne({
+      result = await dbClient.db.collection('users').insertOne({
         email,
         password: sha1Password,
       });
