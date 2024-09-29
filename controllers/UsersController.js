@@ -7,7 +7,7 @@ import redisClient from '../utils/redis';
 const userQueue = new Queue('userQueue', 'redis://127.0.0.1:6379');
 
 class UsersController {
-  static postNew(request, response) {
+  static async postNew(request, response) {
     const { email } = request.body;
     const { password } = request.body;
 
@@ -21,19 +21,19 @@ class UsersController {
     }
 
     const users = dbClient.db.collection('users');
-    users.findOne({ email }, (err, user) => {
+    users.findOne({ email },async (err, user) => {
       if (user) {
         response.status(400).json({ error: 'Already exist' });
       } else {
         const hashedPassword = sha1(password);
-        users.insertOne(
+        await users.insertOne(
           {
             email,
             password: hashedPassword,
           },
-        ).then((result) => {
+        ).then(async(result) => {
           response.status(201).json({ id: result.insertedId, email });
-          userQueue.add({ userId: result.insertedId });
+          await userQueue.add({ userId: result.insertedId });
         }).catch((error) => console.log(error));
       }
     });
