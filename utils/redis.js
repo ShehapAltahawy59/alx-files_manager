@@ -11,15 +11,7 @@ class RedisClient{
     } ;
 
     async isAlive(params) {
-        try{
-        const result = await this.client.ping();
-        if (result === 'PONG')
-            return true
-        else return false
-        }
-        catch(err){
-            return false
-        }
+        return this.client.connected;
     }
 
     async get(key){
