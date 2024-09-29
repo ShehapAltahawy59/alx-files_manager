@@ -1,4 +1,3 @@
-
 import sha1 from 'sha1';
 import { ObjectID } from 'mongodb';
 import Queue from 'bull';
@@ -53,9 +52,11 @@ class UsersController {
         } else {
           response.status(401).json({ error: 'Unauthorized' });
         }
+        if(err){
+            response.status(401).json({ error: 'Unauthorized' });
+        }
       });
     } else {
-      console.log('Hupatikani!');
       response.status(401).json({ error: 'Unauthorized' });
     }
   }
